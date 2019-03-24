@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GithubUsers</string>
+    <string name="label_item_user_number_of_users">Number of Users:</string>
 </resources>

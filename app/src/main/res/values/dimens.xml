@@ -3,6 +3,6 @@
     <dimen name="text_size_item_user_name">20sp</dimen>
     <dimen name="width_item_fav_image_btn">50dp</dimen>
     <dimen name="height_item_fav_image_btn">50dp</dimen>
-    <dimen name="width_item_user_avatar">100dp</dimen>
-    <dimen name="height_item_user_avatar">100dp</dimen>
+    <dimen name="width_item_user_avatar">80dp</dimen>
+    <dimen name="height_item_user_avatar">80dp</dimen>
 </resources>

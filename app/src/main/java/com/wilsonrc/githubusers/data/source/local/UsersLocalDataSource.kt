@@ -3,13 +3,14 @@ package com.wilsonrc.githubusers.data.source.local
 import com.wilsonrc.githubusers.data.models.FavoriteUser
 import com.wilsonrc.githubusers.data.models.User
 import com.wilsonrc.githubusers.data.source.UsersDataSource
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
 class UsersLocalDataSource @Inject constructor(private val usersDao: UsersDao) : UsersDataSource {
 
-    override fun getUsers(since: Int): Observable<User> {
+    override fun getUsers(since: Int): Observable<List<User>> {
         throw Exception("Get all users from local is not allowed.")
     }
 
@@ -23,13 +24,17 @@ class UsersLocalDataSource @Inject constructor(private val usersDao: UsersDao) :
 
     }
 
-    override fun saveFavUser(user: User) {
-        val favoriteUser = fromUserToFavoriteUser(user)
-        usersDao.insertFavoriteUser(favoriteUser)
+    override fun saveFavUser(user: User): Completable {
+        return Completable.fromAction {
+            val favoriteUser = fromUserToFavoriteUser(user)
+            usersDao.insertFavoriteUser(favoriteUser)
+        }
     }
 
-    override fun deleteFavUser(id: Int) {
-        usersDao.deleteFavoriteUser(id)
+    override fun deleteFavUser(id: Int): Completable {
+        return Completable.fromAction {
+            usersDao.deleteFavoriteUser(id)
+        }
     }
 
     private fun fromFavoriteUserToUser(favoriteUser: FavoriteUser): User {

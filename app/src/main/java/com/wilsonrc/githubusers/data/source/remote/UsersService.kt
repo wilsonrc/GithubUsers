@@ -9,6 +9,6 @@ import retrofit2.http.Query
 interface UsersService {
 
     @GET("/users")
-    fun getAllUsers(@Query("since") since : Int) : Observable<User>
+    fun getAllUsers(@Query("since") since : Int) : Observable<List<User>>
 
 }

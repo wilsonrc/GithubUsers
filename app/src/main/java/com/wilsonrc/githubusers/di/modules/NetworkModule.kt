@@ -38,7 +38,7 @@ object NetworkModule {
 
     @Provides
     @JvmStatic
-    internal fun provideLoggingInterceptor() : LoggingInterceptor{
+    internal fun provideLoggingInterceptor(): LoggingInterceptor {
         return LoggingInterceptor()
     }
 

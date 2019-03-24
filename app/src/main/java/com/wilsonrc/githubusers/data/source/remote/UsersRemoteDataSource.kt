@@ -6,14 +6,21 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class UsersRemoteDataSource  @Inject constructor(private val usersService : UsersService) : UsersDataSource {
-
+class UsersRemoteDataSource @Inject constructor(private val usersService: UsersService) : UsersDataSource {
 
     override fun getUsers(since: Int): Observable<User> {
-       return usersService.getAllUsers(since)
+        return usersService.getAllUsers(since)
     }
 
-    override fun getFavUsers(): Single<User> {
+    override fun saveFavUser(user: User) {
+        throw Exception("Save remote fav user is not allowed.")
+    }
+
+    override fun deleteFavUser(id: Int) {
+        throw Exception("delete remote fav user is not allowed.")
+    }
+
+    override fun getFavUsers(): Single<List<User>> {
         throw Exception("Get fav users from remote is not allowed.")
     }
 

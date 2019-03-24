@@ -11,7 +11,9 @@ class User {
 
     @SerializedName("id")
     @Expose
-    var id: Int? = null
+    var remoteId: Int? = null
+
+    var localId: Int? = null
 
     @SerializedName("avatar_url")
     @Expose

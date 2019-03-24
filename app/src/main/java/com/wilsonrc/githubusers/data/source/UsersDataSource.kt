@@ -8,6 +8,10 @@ interface UsersDataSource {
 
     fun getUsers(since: Int) : Observable<User>
 
-    fun getFavUsers() : Single<User>
+    fun getFavUsers() : Single<List<User>>
+
+    fun saveFavUser(user: User)
+
+    fun deleteFavUser(id: Int)
 
 }

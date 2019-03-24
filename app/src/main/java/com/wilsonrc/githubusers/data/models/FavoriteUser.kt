@@ -7,15 +7,15 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "FavoriteUsers")
 data class FavoriteUser(
     @ColumnInfo(name = "remoteId")
-    val remoteId: Int = 0,
+    var remoteId: Int = 0,
 
     @ColumnInfo(name = "name")
-    val name: String? = null,
+    var name: String? = null,
 
     @ColumnInfo(name = "avatar")
-    val url: String? = null
+    var url: String? = null
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "localId")
-    val localId: Int = 0
+    var localId: Int = 0
 }

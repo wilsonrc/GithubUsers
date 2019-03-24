@@ -16,20 +16,13 @@ import io.reactivex.observers.DisposableSingleObserver
 class UsersViewModel @Inject constructor(private val usersRepository: UsersRepository) : ViewModel() {
 
 
-    var usersError: MutableLiveData<String> = MutableLiveData()
+    var errorMessage: MutableLiveData<String> = MutableLiveData()
+    var successMessage : MutableLiveData<String> = MutableLiveData()
     var usersResult: MutableLiveData<List<User>> = MutableLiveData()
     var loading: MutableLiveData<Boolean> = MutableLiveData()
 
     private val disposables: CompositeDisposable by lazy { CompositeDisposable() }
 
-
-    fun usersResult(): LiveData<List<User>> {
-        return usersResult
-    }
-
-    fun usersError(): LiveData<String> {
-        return usersError
-    }
 
     fun loadUsers() {
         loading.value = true
@@ -47,7 +40,7 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
 
                 override fun onError(e: Throwable) {
                     loading.value = false
-                    usersError.postValue(e.message)
+                    errorMessage.postValue(e.message)
                 }
 
             })
@@ -62,12 +55,13 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
             .subscribeWith(object : DisposableSingleObserver<List<User>>() {
                 override fun onSuccess(favUsers: List<User>) {
                     loading.value = false
+                    usersResult.postValue(emptyList())
                     usersResult.postValue(favUsers)
                 }
 
                 override fun onError(e: Throwable) {
                     loading.value = false
-                    usersError.postValue(e.message)
+                    errorMessage.postValue(e.message)
                 }
 
             })
@@ -81,11 +75,12 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
             .subscribeWith(object : DisposableCompletableObserver(){
                 override fun onComplete() {
                     loading.value = false
+                    successMessage.postValue("User was saved to favorites successfully")
                 }
 
                 override fun onError(e: Throwable) {
                     loading.value = false
-                    usersError.postValue(e.message)
+                    errorMessage.postValue(e.message)
                 }
 
             })
@@ -102,11 +97,12 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
             .subscribeWith(object : DisposableCompletableObserver(){
                 override fun onComplete() {
                     loading.value = false
+                    successMessage.postValue("User was deleted from favorites successfully")
                 }
 
                 override fun onError(e: Throwable) {
                     loading.value = false
-                    usersError.postValue(e.message)
+                    errorMessage.postValue(e.message)
                 }
 
             })
@@ -116,7 +112,7 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
     private fun validateIsNotFav(user: User): Boolean {
         if (user.localId == null) {
             loading.value = false
-            usersError.postValue("You cannot delete a user that has not been saved before.")
+            errorMessage.postValue("You cannot delete a user that has not been saved before.")
             return true
         }
         return false

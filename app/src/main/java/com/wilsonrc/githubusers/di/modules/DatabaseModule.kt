@@ -6,20 +6,18 @@ import com.wilsonrc.githubusers.data.source.local.GithubUsersDatabase
 import com.wilsonrc.githubusers.data.source.local.UsersDao
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 object DatabaseModule {
 
     @Provides
+    @Singleton
     @JvmStatic
-    internal fun provideGithubUsersDatabase(app: BaseApp): GithubUsersDatabase {
-        return Room.databaseBuilder(
-            app,
-            GithubUsersDatabase::class.java, "github_users_db"
-        ).build()
-    }
+    fun provideGithubUsersDatabase(app: BaseApp): GithubUsersDatabase = Room.databaseBuilder(app,
+        GithubUsersDatabase::class.java, "github_users_db").build()
 
     @Provides
     @JvmStatic
-    internal fun provideUsersDao(database: GithubUsersDatabase): UsersDao = database.UsersDao()
+    internal fun provideUsersDao(database: GithubUsersDatabase): UsersDao = database.usersDao()
 }

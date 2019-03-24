@@ -47,6 +47,6 @@ class UsersLocalDataSource @Inject constructor(private val usersDao: UsersDao) :
     }
 
     private fun fromUserToFavoriteUser(user: User): FavoriteUser {
-        return FavoriteUser(remoteId = user.remoteId ?: 0, name = user.name, url = user.url)
+        return FavoriteUser(remoteId = user.remoteId ?: 0, name = user.name, url = user.avatarUrl)
     }
 }

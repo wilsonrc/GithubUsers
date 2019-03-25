@@ -6,11 +6,17 @@ import com.wilsonrc.githubusers.data.source.UsersDataSource
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import retrofit2.Response
 import javax.inject.Inject
 
 class UsersLocalDataSource @Inject constructor(private val usersDao: UsersDao) : UsersDataSource {
 
-    override fun getUsers(since: Int): Observable<List<User>> {
+
+    override fun getMoreUsers(url: String): Observable<Response<List<User>>> {
+        throw Exception("Get all users from local is not allowed.")
+    }
+
+    override fun getUsers(since: Int): Observable<Response<List<User>>> {
         throw Exception("Get all users from local is not allowed.")
     }
 

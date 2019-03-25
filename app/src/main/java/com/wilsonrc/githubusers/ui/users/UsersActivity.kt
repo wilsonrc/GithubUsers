@@ -7,15 +7,17 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wilsonrc.githubusers.R
 import com.wilsonrc.githubusers.data.models.User
+import com.wilsonrc.githubusers.utils.InfiniteScrollListener
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_users.*
 import javax.inject.Inject
 
-class UsersActivity : DaggerAppCompatActivity() , UserOptionsListener{
+class UsersActivity : DaggerAppCompatActivity(), UserOptionsListener {
 
     @Inject
-    lateinit var usersViewModelFactory : UsersViewModelFactory
-    lateinit var usersViewModel : UsersViewModel
+    lateinit var usersViewModelFactory: UsersViewModelFactory
+    lateinit var usersViewModel: UsersViewModel
+    private lateinit var usersAdapter: UsersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,18 +26,31 @@ class UsersActivity : DaggerAppCompatActivity() , UserOptionsListener{
         usersViewModel = ViewModelProviders.of(this, usersViewModelFactory)
             .get(UsersViewModel::class.java)
 
+        setupUi()
         setupObservers()
 
-        usersViewModel.loadUsers()
+    }
+
+    private fun setupUi() {
+        usersAdapter = UsersAdapter(this@UsersActivity, arrayListOf<User>(), this@UsersActivity)
+        rvUsers?.adapter = usersAdapter
+        val linearLayoutManager = LinearLayoutManager(this@UsersActivity)
+        rvUsers?.layoutManager = linearLayoutManager
+
+        rvUsers?.addOnScrollListener(
+            InfiniteScrollListener(
+                { usersViewModel.loadMoreUsers() },
+                linearLayoutManager
+            )
+        )
     }
 
     private fun setupObservers() {
 
         usersViewModel.usersResult.observe(this,
             Observer<List<User>> {
-                textNumberOfUsers?.text = "${it?.size ?: 0}"
-                rvUsers.adapter = UsersAdapter(this@UsersActivity, it, this@UsersActivity)
-                rvUsers.layoutManager = LinearLayoutManager(this@UsersActivity)
+                usersAdapter.addUsers(it)
+                textNumberOfUsers?.text = "${usersAdapter.itemCount}"
             })
 
         usersViewModel.successMessage.observe(this, Observer<String> {

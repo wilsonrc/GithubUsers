@@ -1,10 +1,14 @@
 package com.wilsonrc.githubusers.ui.users
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.wilsonrc.githubusers.R
 import com.wilsonrc.githubusers.data.models.User
 import com.wilsonrc.githubusers.utils.InfiniteScrollListener
@@ -47,7 +51,6 @@ class UsersActivity : DaggerAppCompatActivity(), UserOptionsListener {
 
     private fun setupObservers() {
 
-
         usersViewModel.usersResult.observe(this,
             Observer<List<User>> {
                 usersAdapter.addUsers(it)
@@ -71,12 +74,45 @@ class UsersActivity : DaggerAppCompatActivity(), UserOptionsListener {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        usersViewModel.restorePreviousData()
+        handleDisplaySelection(usersViewModel.selectedView)
+    }
+
+    private fun handleDisplaySelection(itemId : Int){
+        when(itemId){
+            R.id.item_all_users -> usersViewModel.restorePreviousData()
+            R.id.item_favorite_users -> usersViewModel.loadFavUsers()
+        }
     }
 
     override fun onFavoriteClicked(user: User) {
-        usersViewModel.saveFavUser(user)
+        when(usersViewModel.selectedView){
+            R.id.item_all_users -> usersViewModel.saveFavUser(user)
+            R.id.item_favorite_users -> {
+                usersViewModel.deleteFavUser(user)
+            }
+        }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.item_all_users -> {
+                usersViewModel.selectedView = R.id.item_all_users
+                usersViewModel.restorePreviousData()
+                true
+            }
+            R.id.item_favorite_users -> {
+                usersViewModel.selectedView = R.id.item_favorite_users
+                usersViewModel.loadFavUsers()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
 }

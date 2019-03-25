@@ -2,6 +2,7 @@ package com.wilsonrc.githubusers.ui.users
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.wilsonrc.githubusers.R
 import com.wilsonrc.githubusers.data.models.User
 import com.wilsonrc.githubusers.data.source.UsersRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,6 +16,7 @@ import io.reactivex.observers.DisposableSingleObserver
 class UsersViewModel @Inject constructor(private val usersRepository: UsersRepository) :
     ViewModel() {
 
+    var selectedView : Int = R.id.item_all_users
 
     var errorMessage: MutableLiveData<String> = MutableLiveData()
     var successMessage: MutableLiveData<String> = MutableLiveData()
@@ -83,7 +85,7 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
             .subscribeWith(object : DisposableSingleObserver<List<User>>() {
                 override fun onSuccess(favUsers: List<User>) {
                     loading.value = false
-                    usersResult.postValue(favUsers)
+                    usersRestore.postValue(favUsers)
                 }
 
                 override fun onError(e: Throwable) {
@@ -124,6 +126,7 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
             .subscribeWith(object : DisposableCompletableObserver() {
                 override fun onComplete() {
                     loading.value = false
+                    loadFavUsers()
                     successMessage.postValue("User was deleted from favorites successfully")
                 }
 
@@ -149,6 +152,5 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
         super.onCleared()
         disposables.dispose()
     }
-
 
 }

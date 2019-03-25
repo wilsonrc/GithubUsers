@@ -47,12 +47,18 @@ class UsersActivity : DaggerAppCompatActivity(), UserOptionsListener {
 
     private fun setupObservers() {
 
+
         usersViewModel.usersResult.observe(this,
             Observer<List<User>> {
                 usersAdapter.addUsers(it)
                 textNumberOfUsers?.text = "${usersAdapter.itemCount}"
             })
 
+        usersViewModel.usersRestore.observe(this,
+            Observer<List<User>> {
+                usersAdapter.replace(it)
+                textNumberOfUsers?.text = "${usersAdapter.itemCount}"
+            })
         usersViewModel.successMessage.observe(this, Observer<String> {
             Toast.makeText(this@UsersActivity, it, Toast.LENGTH_LONG).show()
         })
@@ -63,7 +69,14 @@ class UsersActivity : DaggerAppCompatActivity(), UserOptionsListener {
 
     }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        usersViewModel.restorePreviousData()
+    }
+
     override fun onFavoriteClicked(user: User) {
         usersViewModel.saveFavUser(user)
     }
+
+
 }

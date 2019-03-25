@@ -19,7 +19,10 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
     var errorMessage: MutableLiveData<String> = MutableLiveData()
     var successMessage: MutableLiveData<String> = MutableLiveData()
     var usersResult: MutableLiveData<List<User>> = MutableLiveData()
+    var usersRestore : MutableLiveData<List<User>> = MutableLiveData()
     var loading: MutableLiveData<Boolean> = MutableLiveData()
+
+    var usersList : MutableList<User> = mutableListOf()
 
     var nextPage: String? = null
 
@@ -29,6 +32,11 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
     init {
         initialUserLoad()
     }
+
+    fun restorePreviousData(){
+        usersRestore.postValue(usersList)
+    }
+
     private fun initialUserLoad() {
         loading.value = true
         val disposable = usersRepository.getUsers(1)
@@ -55,6 +63,7 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
             override fun onNext(t: UsersRepository.OutPutPaged) {
                 loading.value = false
                 nextPage = t.nextPage
+                usersList.addAll(t.users)
                 usersResult.postValue(t.users)
             }
 

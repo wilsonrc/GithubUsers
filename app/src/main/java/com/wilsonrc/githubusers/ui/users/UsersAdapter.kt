@@ -10,7 +10,11 @@ import com.wilsonrc.githubusers.R
 import com.wilsonrc.githubusers.data.models.User
 import kotlinx.android.synthetic.main.item_github_user.view.*
 
-class UsersAdapter(private val context : Context, users: List<User>, private val userOptionsListener : UserOptionsListener) : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
+class UsersAdapter(
+    private val context: Context,
+    users: List<User>,
+    private val userOptionsListener: UserOptionsListener
+) : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
 
     private var usersList = ArrayList<User>()
 
@@ -30,7 +34,13 @@ class UsersAdapter(private val context : Context, users: List<User>, private val
         return usersList.size
     }
 
-    fun addUsers(users: List<User>){
+    fun replace(users: List<User>) {
+        usersList.clear()
+        usersList.addAll(users)
+        notifyDataSetChanged()
+    }
+
+    fun addUsers(users: List<User>) {
         val initPosition = usersList.size
         usersList.addAll(users)
         notifyItemRangeInserted(initPosition, usersList.size)
@@ -43,12 +53,12 @@ class UsersAdapter(private val context : Context, users: List<User>, private val
     class UsersViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bindUser(user: User, context: Context?, userOptionsListener: UserOptionsListener) {
-            with(user){
+            with(user) {
                 context?.let {
                     Glide.with(context).load(avatarUrl).into(itemView.imageAvatar)
                 }
                 itemView.textUserName.text = name
-                itemView.btnImageStar.setOnClickListener{
+                itemView.btnImageStar.setOnClickListener {
                     userOptionsListener.onFavoriteClicked(this)
                 }
             }

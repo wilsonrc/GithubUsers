@@ -12,6 +12,7 @@ object ViewModelModule {
     @Provides
     @Reusable
     @JvmStatic
-    internal fun provideUsersViewModelFactoryce(factory: UsersViewModelFactory) : ViewModelProvider.Factory = factory
+    internal fun provideUsersViewModelFactoryce(factory: UsersViewModelFactory): ViewModelProvider.Factory =
+        factory
 
 }

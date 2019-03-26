@@ -15,7 +15,9 @@ data class FavoriteUser(
     @ColumnInfo(name = "avatar")
     var url: String? = null
 ) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "localId")
     var localId: Int = 0
+
 }

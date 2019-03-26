@@ -16,15 +16,15 @@ import io.reactivex.observers.DisposableSingleObserver
 class UsersViewModel @Inject constructor(private val usersRepository: UsersRepository) :
     ViewModel() {
 
-    var selectedView : Int = R.id.item_all_users
+    var selectedView: Int = R.id.item_all_users
 
     var errorMessage: MutableLiveData<String> = MutableLiveData()
     var successMessage: MutableLiveData<String> = MutableLiveData()
     var usersResult: MutableLiveData<List<User>> = MutableLiveData()
-    var usersRestore : MutableLiveData<List<User>> = MutableLiveData()
+    var usersRestore: MutableLiveData<List<User>> = MutableLiveData()
     var loading: MutableLiveData<Boolean> = MutableLiveData()
 
-    var usersList : MutableList<User> = mutableListOf()
+    var usersList: MutableList<User> = mutableListOf()
 
     var nextPage: String? = null
 
@@ -35,7 +35,7 @@ class UsersViewModel @Inject constructor(private val usersRepository: UsersRepos
         initialUserLoad()
     }
 
-    fun restorePreviousData(){
+    fun restorePreviousData() {
         usersRestore.postValue(usersList)
     }
 

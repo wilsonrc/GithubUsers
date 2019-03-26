@@ -8,6 +8,6 @@ import dagger.android.ContributesAndroidInjector
 abstract class AppBindingModule {
 
     @ContributesAndroidInjector
-    abstract fun provideUsersActivity(): UsersActivity
+    internal abstract fun provideUsersActivity(): UsersActivity
 
 }

@@ -8,11 +8,11 @@ import retrofit2.Response
 
 interface UsersDataSource {
 
-    fun getUsers(since: Int) : Observable<Response<List<User>>>
+    fun getUsers(since: Int): Observable<Response<List<User>>>
 
-    fun getMoreUsers(url : String) : Observable<Response<List<User>>>
+    fun getMoreUsers(url: String): Observable<Response<List<User>>>
 
-    fun getFavUsers() : Single<List<User>>
+    fun getFavUsers(): Single<List<User>>
 
     fun saveFavUser(user: User): Completable
 

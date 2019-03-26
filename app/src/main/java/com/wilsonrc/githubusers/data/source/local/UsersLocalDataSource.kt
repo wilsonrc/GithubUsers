@@ -11,7 +11,6 @@ import javax.inject.Inject
 
 class UsersLocalDataSource @Inject constructor(private val usersDao: UsersDao) : UsersDataSource {
 
-
     override fun getMoreUsers(url: String): Observable<Response<List<User>>> {
         throw Exception("Get all users from local is not allowed.")
     }
@@ -55,4 +54,5 @@ class UsersLocalDataSource @Inject constructor(private val usersDao: UsersDao) :
     private fun fromUserToFavoriteUser(user: User): FavoriteUser {
         return FavoriteUser(remoteId = user.remoteId ?: 0, name = user.name, url = user.avatarUrl)
     }
+
 }

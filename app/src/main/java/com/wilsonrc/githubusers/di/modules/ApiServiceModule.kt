@@ -12,7 +12,7 @@ object ApiServiceModule {
     @Provides
     @Reusable
     @JvmStatic
-    fun provideUsersService(retrofit: Retrofit): UsersService {
+    internal fun provideUsersService(retrofit: Retrofit): UsersService {
         return retrofit.create(UsersService::class.java)
     }
 

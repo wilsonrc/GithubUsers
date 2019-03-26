@@ -77,15 +77,15 @@ class UsersActivity : DaggerAppCompatActivity(), UserOptionsListener {
         handleDisplaySelection(usersViewModel.selectedView)
     }
 
-    private fun handleDisplaySelection(itemId : Int){
-        when(itemId){
+    private fun handleDisplaySelection(itemId: Int) {
+        when (itemId) {
             R.id.item_all_users -> usersViewModel.restorePreviousData()
             R.id.item_favorite_users -> usersViewModel.loadFavUsers()
         }
     }
 
     override fun onFavoriteClicked(user: User) {
-        when(usersViewModel.selectedView){
+        when (usersViewModel.selectedView) {
             R.id.item_all_users -> usersViewModel.saveFavUser(user)
             R.id.item_favorite_users -> {
                 usersViewModel.deleteFavUser(user)

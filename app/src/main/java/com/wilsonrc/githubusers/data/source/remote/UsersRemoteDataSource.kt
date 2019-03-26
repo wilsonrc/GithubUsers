@@ -11,7 +11,6 @@ import javax.inject.Inject
 class UsersRemoteDataSource @Inject constructor(private val usersService: UsersService) :
     UsersDataSource {
 
-
     override fun getUsers(since: Int): Observable<Response<List<User>>> {
         return usersService.getAllUsers(since)
     }

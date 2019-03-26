@@ -17,19 +17,18 @@ class UsersRepository @Inject constructor(
 
     data class OutPutPaged(var nextPage: String? = null, var users: List<User>)
 
-
     fun saveFavUser(user: User): Completable {
-       return usersLocalDataSource.saveFavUser(user)
-           .subscribeOn(Schedulers.io())
+        return usersLocalDataSource.saveFavUser(user)
+            .subscribeOn(Schedulers.io())
     }
 
-     fun deleteFavUser(id: Int): Completable {
-       return usersLocalDataSource.deleteFavUser(id)
-           .subscribeOn(Schedulers.io())
+    fun deleteFavUser(id: Int): Completable {
+        return usersLocalDataSource.deleteFavUser(id)
+            .subscribeOn(Schedulers.io())
     }
 
 
-     fun getUsers(since: Int): Observable<OutPutPaged> {
+    fun getUsers(since: Int): Observable<OutPutPaged> {
         return usersRemoteDataSource.getUsers(since)
             .flatMap {
                 val pageLinks = PageLinks(it)
@@ -49,11 +48,9 @@ class UsersRepository @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-     fun getFavUsers(): Single<List<User>> {
+    fun getFavUsers(): Single<List<User>> {
         return usersLocalDataSource.getFavUsers()
             .subscribeOn(Schedulers.io())
     }
-
-
-
+    
 }

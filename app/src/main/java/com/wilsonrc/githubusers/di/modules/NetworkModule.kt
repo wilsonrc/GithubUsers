@@ -17,13 +17,13 @@ object NetworkModule {
     @Reusable
     @JvmStatic
     fun provideRetrofitInterface(okHttpClient: OkHttpClient): Retrofit {
-
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
+
     }
 
     @Provides

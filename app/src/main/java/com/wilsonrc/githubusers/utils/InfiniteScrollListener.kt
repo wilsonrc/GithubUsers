@@ -40,5 +40,5 @@ class InfiniteScrollListener(val func: () -> Unit, private val layoutManager: Li
 
         }
     }
-    
+
 }
